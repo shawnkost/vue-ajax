@@ -4,11 +4,11 @@
     <v-sheet dark class="sheet">
       <v-slide-group class="py-4 pr-4" center-active show-arrows>
         <v-slide-item v-for="show in shows" :key="show.id">
-          <v-card class="ma-2 sk-card" width="300px" light>
-            <v-img class="align-end" height="350px" :src="show.image_url">
+          <v-card class="ma-2 anime-card" width="300px" light>
+            <v-img class="align-end" max-height="400px" :src="show.image_url">
             </v-img>
 
-            <v-card-title primary-title>
+            <v-card-title primary-title class="d-block">
               <p class="card-title mb-0">{{ show.title }}</p>
             </v-card-title>
             <v-card-text class="card-text">
@@ -34,13 +34,20 @@ export default {
 
   methods: {
     async getData() {
-      try {
-        let response = await fetch(`https://api.jikan.moe/v3/top/anime`);
-        let temp = await response.json();
-        this.shows = temp.top;
-        console.log(this.shows);
-      } catch (error) {
-        console.log(error);
+      let data = localStorage.getItem('topAnime');
+      data = JSON.parse(data);
+
+      if (!data) {
+        try {
+          let response = await fetch(`https://api.jikan.moe/v3/top/anime`);
+          let temp = await response.json();
+          localStorage.setItem('topAnime', JSON.stringify(temp));
+          this.shows = temp.top;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.shows = data.top;
       }
     },
   },
@@ -61,6 +68,11 @@ h1 {
 
 .sheet {
   background: transparent;
+}
+
+.anime-card {
+  text-align: center;
+  border-radius: 10px !important;
 }
 
 .card-title {
