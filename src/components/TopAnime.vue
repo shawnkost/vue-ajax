@@ -1,35 +1,24 @@
 <template>
   <v-container>
     <h1>Top Anime</h1>
+    <v-sheet dark class="sheet">
+      <v-slide-group class="py-4 pr-4" center-active show-arrows>
+        <v-slide-item v-for="show in shows" :key="show.id">
+          <v-card class="ma-2 sk-card" width="300px" light>
+            <v-img class="align-end" height="350px" :src="show.image_url">
+            </v-img>
 
-    <v-row>
-      <v-col
-        cols="12"
-        sm="4"
-        lg="2"
-        v-for="show in shows"
-        :key="show.id"
-        pl-2
-        pr-2
-      >
-        <v-card class="flex d-flex flex-column">
-          <v-img :src="show.image_url"></v-img>
-          <v-card-title primary-title>
-            <h3 class="headline mb-0">{{ show.title }}</h3>
-          </v-card-title>
-          <v-card-text>
-          <p>Start date: {{ show.start_date }}</p>
-          <p>End date: {{ show.end_date }}</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <div>
-      <ul v-for="show in shows" v-bind:key="show.id">
-        <li>{{ show.title }}</li>
-        <p>{{ show.body }}</p>
-      </ul>
-    </div>
+            <v-card-title primary-title>
+              <p class="card-title mb-0">{{ show.title }}</p>
+            </v-card-title>
+            <v-card-text class="card-text">
+              <p>Start date: {{ show.start_date }}</p>
+              <p>End date: {{ show.end_date }}</p>
+            </v-card-text>
+          </v-card>
+        </v-slide-item>
+      </v-slide-group>
+    </v-sheet>
   </v-container>
 </template>
 
@@ -68,5 +57,19 @@ h1 {
   font-family: 'League Spartan', sans-serif;
   font-size: 48px;
   margin-bottom: 20px;
+}
+
+.sheet {
+  background: transparent;
+}
+
+.card-title {
+  font-family: 'League Spartan', sans-serif;
+}
+
+.card-text {
+  font-size: 16px;
+  font-family: 'Libre Baskerville', serif;
+  /* height: 100px; */
 }
 </style>
