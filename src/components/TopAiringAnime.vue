@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Top Anime</h1>
+    <h1>Top Airing Anime</h1>
     <v-sheet dark class="sheet">
       <v-slide-group
         class="py-4 pr-4"
@@ -20,7 +20,12 @@
             :height="$vuetify.breakpoint.xs ? '450px' : 'auto'"
             light
           >
-            <v-img class="align-end" :src="show.image_url" aspect-ratio=".75">
+            <v-img
+              class="align-end"
+              max-height="400px"
+              :src="show.image_url"
+              aspect-ratio=".75"
+            >
             </v-img>
 
             <v-card-title primary-title class="d-block">
@@ -28,7 +33,6 @@
             </v-card-title>
             <v-card-text class="card-text">
               <p>Start date: {{ show.start_date }}</p>
-              <p v-if="show.end_date">End date: {{ show.end_date }}</p>
             </v-card-text>
           </v-card>
         </v-slide-item>
@@ -39,7 +43,7 @@
 
 <script>
 export default {
-  name: 'TopAnime',
+  name: 'TopAiringAnime',
 
   data() {
     return {
@@ -49,15 +53,18 @@ export default {
 
   methods: {
     async getData() {
-      let data = localStorage.getItem('topAnime');
+      let data = localStorage.getItem('topAiringAnime');
       data = JSON.parse(data);
 
       if (!data?.shows || this.isDataOutdated(data)) {
         try {
-          let response = await fetch(`https://api.jikan.moe/v3/top/anime`);
+          let response = await fetch(
+            `https://api.jikan.moe/v3/top/anime/1/airing`
+          );
           let temp = await response.json();
+          console.log('temp', temp);
           localStorage.setItem(
-            'topAnime',
+            'topAiringAnime',
             JSON.stringify({ shows: temp.top, receivedAt: new Date() })
           );
           this.shows = temp.top;
