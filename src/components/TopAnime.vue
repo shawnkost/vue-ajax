@@ -51,7 +51,7 @@ export default {
       let data = localStorage.getItem('topAnime');
       data = JSON.parse(data);
 
-      if (!data.shows || this.isDataOutdated(data)) {
+      if (!data?.shows || this.isDataOutdated(data)) {
         try {
           let response = await fetch(`https://api.jikan.moe/v3/top/anime`);
           let temp = await response.json();
