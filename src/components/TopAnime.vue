@@ -12,14 +12,15 @@
             class="ma-2 anime-card"
             :width="
               $vuetify.breakpoint.xs
-                ? '300px'
+                ? '200px'
                 : $vuetify.breakpoint.sm
                 ? '20%'
                 : '50%'
             "
+            :height="$vuetify.breakpoint.xs ? '450px' : 'auto'"
             light
           >
-            <v-img class="align-end" max-height="400px" :src="show.image_url">
+            <v-img class="align-end" :src="show.image_url" aspect-ratio=".75">
             </v-img>
 
             <v-card-title primary-title class="d-block">
@@ -27,7 +28,7 @@
             </v-card-title>
             <v-card-text class="card-text">
               <p>Start date: {{ show.start_date }}</p>
-              <p>End date: {{ show.end_date }}</p>
+              <p v-if="show.end_date">End date: {{ show.end_date }}</p>
             </v-card-text>
           </v-card>
         </v-slide-item>
@@ -105,9 +106,22 @@ h1 {
   font-family: 'Libre Baskerville', serif;
 }
 
+.card-text p {
+  margin-bottom: 1em;
+}
+
 @media screen and (max-width: 960px) {
   h1 {
     margin: 0px 0px 20px 0px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card-title {
+    font-size: 1rem;
+  }
+  .card-text {
+    font-size: 0.8rem;
   }
 }
 </style>

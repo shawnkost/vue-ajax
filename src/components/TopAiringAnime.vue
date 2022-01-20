@@ -12,14 +12,20 @@
             class="ma-2 anime-card"
             :width="
               $vuetify.breakpoint.xs
-                ? '300px'
+                ? '200px'
                 : $vuetify.breakpoint.sm
                 ? '20%'
                 : '50%'
             "
+            :height="$vuetify.breakpoint.xs ? '450px' : 'auto'"
             light
           >
-            <v-img class="align-end" max-height="400px" :src="show.image_url">
+            <v-img
+              class="align-end"
+              max-height="400px"
+              :src="show.image_url"
+              aspect-ratio=".75"
+            >
             </v-img>
 
             <v-card-title primary-title class="d-block">
@@ -52,9 +58,11 @@ export default {
 
       if (!data?.shows || this.isDataOutdated(data)) {
         try {
-          let response = await fetch(`https://api.jikan.moe/v3/top/anime/1/airing`);
+          let response = await fetch(
+            `https://api.jikan.moe/v3/top/anime/1/airing`
+          );
           let temp = await response.json();
-          console.log("temp", temp);
+          console.log('temp', temp);
           localStorage.setItem(
             'topAiringAnime',
             JSON.stringify({ shows: temp.top, receivedAt: new Date() })
@@ -105,9 +113,22 @@ h1 {
   font-family: 'Libre Baskerville', serif;
 }
 
+.card-text p {
+  margin-bottom: 1em;
+}
+
 @media screen and (max-width: 960px) {
   h1 {
     margin: 0px 0px 20px 0px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card-title {
+    font-size: 1rem;
+  }
+  .card-text {
+    font-size: 0.8rem;
   }
 }
 </style>
