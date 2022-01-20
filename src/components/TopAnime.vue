@@ -2,9 +2,23 @@
   <v-container>
     <h1>Top Anime</h1>
     <v-sheet dark class="sheet">
-      <v-slide-group class="py-4 pr-4" show-arrows>
+      <v-slide-group
+        class="py-4 pr-4"
+        show-arrows="desktop"
+        mobile-breakpoint="960"
+      >
         <v-slide-item v-for="show in shows" :key="show.id">
-          <v-card class="ma-2 anime-card" :width="$vuetify.breakpoint.sm ? '20%' : '50%'" light>
+          <v-card
+            class="ma-2 anime-card"
+            :width="
+              $vuetify.breakpoint.xs
+                ? '300px'
+                : $vuetify.breakpoint.sm
+                ? '20%'
+                : '50%'
+            "
+            light
+          >
             <v-img class="align-end" max-height="400px" :src="show.image_url">
             </v-img>
 
@@ -41,7 +55,10 @@ export default {
         try {
           let response = await fetch(`https://api.jikan.moe/v3/top/anime`);
           let temp = await response.json();
-          localStorage.setItem('topAnime', JSON.stringify({shows: temp.top, receivedAt: new Date()}));
+          localStorage.setItem(
+            'topAnime',
+            JSON.stringify({ shows: temp.top, receivedAt: new Date() })
+          );
           this.shows = temp.top;
         } catch (error) {
           console.log(error);
@@ -51,9 +68,9 @@ export default {
       }
     },
     isDataOutdated(receivedAt) {
-      const checkDate = new Date(new Date().getTime() - (60 * 60 * 4 * 1000));
+      const checkDate = new Date(new Date().getTime() - 60 * 60 * 4 * 1000);
       return new Date(receivedAt).getTime() < checkDate.getTime();
-    }
+    },
   },
 
   created() {
@@ -86,6 +103,11 @@ h1 {
 .card-text {
   font-size: 16px;
   font-family: 'Libre Baskerville', serif;
-  /* height: 100px; */
+}
+
+@media screen and (max-width: 960px) {
+  h1 {
+    margin: 0px 0px 20px 0px;
+  }
 }
 </style>
