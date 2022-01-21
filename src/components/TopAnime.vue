@@ -7,7 +7,7 @@
         show-arrows="desktop"
         mobile-breakpoint="960"
       >
-        <v-slide-item v-for="show in shows" :key="show.id">
+        <v-slide-item v-for="show in shows" :key="show.mal_id">
           <v-card
             class="ma-2 anime-card"
             :width="
@@ -19,6 +19,7 @@
             "
             :height="$vuetify.breakpoint.xs ? '450px' : 'auto'"
             light
+            v-on:click="route(show.mal_id)"
           >
             <v-img class="align-end" :src="show.image_url" aspect-ratio=".75">
             </v-img>
@@ -71,6 +72,13 @@ export default {
     isDataOutdated(receivedAt) {
       const checkDate = new Date(new Date().getTime() - 60 * 60 * 4 * 1000);
       return new Date(receivedAt).getTime() < checkDate.getTime();
+    },
+    route(id) {
+      this.$emit('clicked', id);
+
+      this.$router.push({
+        name: 'Anime',
+      });
     },
   },
 

@@ -3,26 +3,32 @@
     <Header />
 
     <v-main class="grey darken-4">
-      <Home />
+      <router-view @clicked="onClickChild" :malId="malId"></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import Header from './components/Header';
-import Home from './views/Home';
 
 export default {
   name: 'App',
 
   components: {
     Header,
-    Home
   },
 
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      malId: 0,
+    };
+  },
+
+  methods: {
+    onClickChild(value) {
+      this.malId = value;
+    },
+  },
 };
 </script>
 <style>
@@ -32,5 +38,4 @@ export default {
   src: url('./fonts/LeagueSpartan-Bold.otf') format('opentype');
 }
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
-
 </style>
